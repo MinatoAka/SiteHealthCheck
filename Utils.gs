@@ -41,17 +41,76 @@ function normalizeSitemapUrls(xmlText) {
       return item.replace(/<\/?loc>/gi, "").trim();
     })
     .filter(function (item) {
-      return item && item.indexOf("http") === 0;
+      return !!item && item.indexOf("http") === 0;
     })
     .slice(0, MAX_SITEMAP_LINKS);
+}
+
+function fetchUrlBatch(urls) {
+  if (!urls || !urls.length) {
+    return [];
+  }
+
+  var rows = [];
+  for (var i = 0; i < urls.length; i += URL_BATCH_SIZE) {
+    var batch = urls.slice(i, i + URL_BATCH_SIZE).map(function (url) {
+      return {
+        url: url,
+        muteHttpExceptions: true,
+        followRedirects: true
+      };
+    });
+
+    var responses = UrlFetchApp.fetchAll(batch);
+    for (var j = 0; j < responses.length; j++) {
+      rows.push({
+        url: urls[i + j],
+        response: responses[j]
+      });
+    }
+  }
+
+  return rows;
+}
+
+function getSheetRowsWithoutOldLogs(sheet) {
+  var data = sheet.getDataRange().getValues();
+  if (!data.length) {
+    return [];
+  }
+
+  var header = data[0];
+  var keepRows = [header];
+  var now = new Date();
+
+  for (var i = 1; i < data.length; i++) {
+    var row = data[i];
+    var rawDate = row[0];
+
+    if (!rawDate) {
+      keepRows.push(row);
+      continue;
+    }
+
+    var parsedDate = new Date(rawDate);
+    if (isNaN(parsedDate.getTime())) {
+      keepRows.push(row);
+      continue;
+    }
+
+    var diffDays = (now - parsedDate) / (1000 * 60 * 60 * 24);
+    if (diffDays <= LOG_RETENTION_DAYS) {
+      keepRows.push(row);
+    }
+  }
+
+  return keepRows;
 }
 
 // DELETE LOG - tiap 7 hari
 function autoDeleteLog() {
   var ss = getSiteSpreadsheet();
   var sheetNames = [UPTIME_SHEET_NAME, LINK_SHEET_NAME];
-  var sekarang = new Date();
-  var millisPerDay = 1000 * 60 * 60 * 24;
 
   sheetNames.forEach(function (namaSheet) {
     var sheet = ss.getSheetByName(namaSheet);
@@ -59,32 +118,8 @@ function autoDeleteLog() {
       return;
     }
 
-    var data = sheet.getDataRange().getValues();
-    var header = data[0];
-    var keepRows = [header];
-
-    for (var i = 1; i < data.length; i++) {
-      var row = data[i];
-      var rawDate = row[0];
-
-      if (!rawDate) {
-        keepRows.push(row);
-        continue;
-      }
-
-      var tglLog = new Date(rawDate);
-      if (isNaN(tglLog.getTime())) {
-        keepRows.push(row);
-        continue;
-      }
-
-      var selisihHari = (sekarang - tglLog) / millisPerDay;
-      if (selisihHari <= LOG_RETENTION_DAYS) {
-        keepRows.push(row);
-      }
-    }
-
-    if (keepRows.length !== data.length) {
+    var keepRows = getSheetRowsWithoutOldLogs(sheet);
+    if (keepRows.length !== sheet.getLastRow()) {
       sheet.clearContents();
       if (keepRows.length > 0) {
         sheet.getRange(1, 1, keepRows.length, keepRows[0].length).setValues(keepRows);
