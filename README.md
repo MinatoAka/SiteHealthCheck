@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/Google%20Apps%20Script-Automation-green.svg" alt="Google Apps Script" />
   <img src="https://img.shields.io/badge/Status-Website%20Monitoring-success.svg" alt="Website Monitoring" />
   <a href="https://saweria.co/AKaAturDompet">
-    <img src="https://img.shields.io/badge/Support%20Me-Saweria-orange?logo=saweria&logoColor=white" alt="Support Me on Saweria" />
+    <img src="https://img.shields.io/badge/Support%20Project-Saweria-%23ff7a00?style=for-the-badge&logo=saweria&logoColor=white" alt="Support Project on Saweria" />
   </a>
 </p>
 
