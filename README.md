@@ -239,5 +239,3 @@ Proyek ini dilisensikan di bawah [GNU General Public License v3.0](LICENSE).
 Proyek ini aktif dikembangkan untuk mendukung kebutuhan monitoring website yang sederhana, andal, dan mudah dijalankan di ekosistem Google Workspace.
 
 ---
-
-Jika Anda ingin, saya juga bisa bantu membuat versi README yang lebih singkat untuk GitHub profile, atau versi yang lebih teknis untuk komunitas open source.
