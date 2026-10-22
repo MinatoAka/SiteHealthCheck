@@ -1,5 +1,7 @@
 // Trigger management
 function pasangTriggerOtomatis() {
+  validateConfig();
+
   var managedFunctions = ["cekUptimeKeSheet", "cekLinkMatiKeSheet", "autoDeleteLog"];
 
   ScriptApp.getProjectTriggers().forEach(function (trigger) {
