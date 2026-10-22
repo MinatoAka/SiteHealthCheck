@@ -5,7 +5,7 @@
 [![Google Apps Script](https://img.shields.io/badge/Google%20Apps%20Script-Automation-green.svg)](https://developers.google.com/apps-script)
 [![Status](https://img.shields.io/badge/Status-Website%20Monitoring-success.svg)](https://github.com/MinatoAka/SiteHealthCheck)
 
-SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk memantau kesehatan situs web secara berkala. Script ini akan mengecek uptime utama website, memvalidasi URL dari sitemap, dan menyimpan hasil monitoring ke Google Sheets secara otomatis.
+SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk memantau kesehatan situs web secara berkala. Script ini akan mengecek uptime utama website, memvalidasi URL dari sitemap, dan menyimpan hasilnya ke Google Sheets secara otomatis.
 
 ## Fitur
 
@@ -97,6 +97,8 @@ Proyek ini dilisensikan di bawah [GNU General Public License v3.0](LICENSE).
 
 ## Kontak
 
-Untuk pertanyaan atau dukungan, silakan buka halaman repository ini di GitHub:
+Untuk pertanyaan atau dukungan, silakan buka [halaman issue GitHub](https://github.com/MinatoAka/SiteHealthCheck/issues) atau dukung proyek melalui [Saweria](https://saweria.co/AKaAturDompet).
+
+Repository GitHub:
 
 https://github.com/MinatoAka/SiteHealthCheck
