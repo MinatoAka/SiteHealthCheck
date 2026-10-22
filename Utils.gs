@@ -130,8 +130,13 @@ function autoDeleteLog() {
 
 // JALANKAN INI 1x AJA BUAT PASANG JADWAL
 function pasangTriggerOtomatis() {
+  var managedFunctions = ["cekUptimeKeSheet", "cekLinkMatiKeSheet", "autoDeleteLog"];
+
   ScriptApp.getProjectTriggers().forEach(function (trigger) {
-    ScriptApp.deleteTrigger(trigger);
+    var handler = trigger.getHandlerFunction ? trigger.getHandlerFunction() : "";
+    if (managedFunctions.indexOf(handler) !== -1) {
+      ScriptApp.deleteTrigger(trigger);
+    }
   });
 
   ScriptApp.newTrigger("cekUptimeKeSheet").timeBased().everyHours(6).create();
