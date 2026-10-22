@@ -29,14 +29,11 @@ function validateUrl(urlValue, name) {
     throw new Error(name + " harus memakai protokol http atau https.");
   }
 
-  try {
-    var parsed = Utilities.parseUrl(normalizedUrl);
-    var hostname = (parsed && parsed.host) ? parsed.host : "";
-    if (!hostname || !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(hostname)) {
-      throw new Error(name + " tidak memiliki hostname yang valid.");
-    }
-  } catch (e) {
-    throw new Error(name + " tidak valid: " + normalizedUrl + " (" + e.message + ")");
+  var hostnameMatch = normalizedUrl.match(/^https?:\/\/([^\/?#]+)/i);
+  var hostname = hostnameMatch ? hostnameMatch[1].replace(/:\d+$/, "") : "";
+
+  if (!hostname || !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(hostname)) {
+    throw new Error(name + " tidak memiliki hostname yang valid.");
   }
 }
 
