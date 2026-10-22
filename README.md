@@ -1,6 +1,6 @@
 # SiteHealthCheck
 
-SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk memantau kesehatan situs web secara berkala. Script ini memeriksa uptime halaman utama dan validitas URL yang terdaftar di sitemap, lalu menyimpan hasilnya ke dalam Google Spreadsheet untuk kebutuhan monitoring dan audit.
+SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk memantau kesehatan situs web secara berkala. Script ini mengecek uptime halaman utama, memvalidasi URL dari sitemap, dan mencatat hasil monitoring ke Google Spreadsheet agar Anda bisa memantau kondisi situs tanpa harus menjalankan proses secara manual.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![JavaScript](https://img.shields.io/badge/JavaScript-100%25-yellow.svg)](https://developer.mozilla.org/id/docs/Web/JavaScript)
@@ -15,7 +15,7 @@ Proyek ini dirancang untuk membantu Anda memantau website secara otomatis dengan
 - pengecekan uptime situs utama
 - pengecekan link rusak dari sitemap
 - pencatatan hasil monitoring ke spreadsheet
-- pembersihan log secara otomatis agar file tetap ringkas
+- pembersihan log secara otomatis agar data tetap ringkas
 - pengaturan trigger otomatis berbasis jadwal
 
 ## Fitur Utama
@@ -28,11 +28,17 @@ Proyek ini dirancang untuk membantu Anda memantau website secara otomatis dengan
 - Validasi konfigurasi dasar untuk mencegah error runtime
 - Optimasi performa dengan batch processing dan pembatasan jumlah URL
 
-## Arsitektur Proyek
+## Struktur Proyek
 
-- `Config.gs` — konfigurasi global, validasi URL, dan validasi spreadsheet ID
-- `Main.gs` — fungsi utama untuk pengecekan uptime dan link mati
-- `Utils.gs` — helper, normalisasi sitemap, batch fetch, cleanup log, dan trigger otomatis
+Berikut struktur file yang saat ini ada di repositori:
+
+- `Config.gs` — konfigurasi global, validasi URL, validasi `SPREADSHEETS_ID`, serta helper validasi umum
+- `Main.gs` — fungsi utama untuk mengecek uptime dan link mati
+- `SitemapUtils.gs` — normalisasi dan ekstraksi URL dari `sitemap.xml`
+- `SpreadsheetUtils.gs` — helper untuk membuka/membuat sheet dan menulis data ke spreadsheet
+- `TriggerUtils.gs` — pendaftaran trigger otomatis dengan jadwal tertentu
+- `README.md` — dokumentasi proyek
+- `LICENSE` — lisensi GPL v3
 
 ## Cara Kerja
 
@@ -48,7 +54,7 @@ Proyek ini dirancang untuk membantu Anda memantau website secara otomatis dengan
 
 - Akun Google
 - Google Spreadsheet yang akan dipakai sebagai database monitoring
-- Google Apps Script project
+- Project Google Apps Script
 - Akses ke situs yang akan dipantau
 - Koneksi internet aktif saat script berjalan
 
