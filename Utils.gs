@@ -1,7 +1,5 @@
 function getSiteSpreadsheet() {
-  if (!SHEET_ID) {
-    throw new Error("SPREADSHEETS_ID belum di-set di Script Properties.");
-  }
+  validateConfig();
   return SpreadsheetApp.openById(SHEET_ID);
 }
 
