@@ -37,6 +37,10 @@ function validateUrl(urlValue, name) {
   }
 }
 
+function isValidHttpStatusCode(code) {
+  return typeof code === "number" && code >= 100 && code < 600;
+}
+
 function validateConfig() {
   validateSheetId(SHEET_ID);
   validateUrl(URL_UTAMA, "URL_UTAMA");
