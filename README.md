@@ -5,6 +5,9 @@
   <img src="https://img.shields.io/badge/JavaScript-100%25-yellow.svg" alt="JavaScript" />
   <img src="https://img.shields.io/badge/Google%20Apps%20Script-Automation-green.svg" alt="Google Apps Script" />
   <img src="https://img.shields.io/badge/Status-Website%20Monitoring-success.svg" alt="Website Monitoring" />
+  <a href="https://saweria.co/AKaAturDompet">
+    <img src="https://img.shields.io/badge/Support%20Me-Saweria-orange?logo=saweria&logoColor=white" alt="Support Me on Saweria" />
+  </a>
 </p>
 
 SiteHealthCheck adalah proyek open source berbasis Google Apps Script yang membantu memantau kesehatan website secara otomatis. Proyek ini memeriksa uptime situs utama, mengecek URL dari sitemap, dan menyimpan hasil pemantauan ke spreadsheet Google untuk analisis dan pelacakan lebih lanjut.
