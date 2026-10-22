@@ -15,12 +15,8 @@ function validateSheetId(sheetId) {
   }
 
   var normalized = sheetId.trim();
-  if (!normalized || /\s/.test(normalized)) {
+  if (!normalized || normalized.length < 10 || /\s/.test(normalized)) {
     throw new Error("SPREADSHEETS_ID tidak valid. Pastikan ID spreadsheet benar dan tidak mengandung spasi.");
-  }
-
-  if (normalized.length < 10 || !/^[A-Za-z0-9-_]+$/.test(normalized)) {
-    throw new Error("SPREADSHEETS_ID tidak valid. ID spreadsheet biasanya berisi kombinasi huruf, angka, tanda '-' atau '_'.");
   }
 }
 
@@ -29,7 +25,7 @@ function isValidHostname(hostname) {
     return false;
   }
 
-  var host = hostname.toLowerCase().replace(/\.$/, "");
+  var host = hostname.toLowerCase().replace(/\.\s*$/, "");
   if (!host || /\s/.test(host)) {
     return false;
   }
@@ -38,8 +34,8 @@ function isValidHostname(hostname) {
     return true;
   }
 
-  if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)) {
-    return true;
+  if (!/^\w[\w.-]*\.[a-z]{2,}$/i.test(host)) {
+    return false;
   }
 
   if (host.indexOf("..") !== -1 || host.startsWith("-") || host.endsWith("-")) {
@@ -53,10 +49,7 @@ function isValidHostname(hostname) {
 
   for (var i = 0; i < labels.length; i++) {
     var label = labels[i];
-    if (!label || label.length > 63 || /^-/.test(label) || /-$/.test(label)) {
-      return false;
-    }
-    if (!/^[a-z0-9-]+$/i.test(label)) {
+    if (!label || label.length > 63 || /-/.test(label) || !/^[a-z0-9-]+$/i.test(label)) {
       return false;
     }
   }
@@ -84,11 +77,11 @@ function validateUrl(urlValue, name) {
   }
 
   var hostnameMatch = normalizedUrl.match(/^https?:\/\/([^\/?#]+)/i);
-  var hostPort = hostnameMatch ? hostnameMatch[1] : "";
-  var hostname = hostPort ? hostPort.split(":")[0] : "";
+  var hostnamePort = hostnameMatch ? hostnameMatch[1] : "";
+  var hostname = hostnamePort ? hostnamePort.split(":")[0] : "";
 
   if (!isValidHostname(hostname)) {
-    throw new Error(name + " tidak valid: " + normalizedUrl + " (hostname tidak sesuai format domain/URL yang valid)");
+    throw new Error(name + " tidak memiliki hostname yang valid.");
   }
 }
 
@@ -113,6 +106,16 @@ function describeHttpStatus(code) {
 }
 
 function validateConfig() {
-  validateSheetId(SHEET_ID);
-  validateUrl(URL_UTAMA, "URL_UTAMA");
+  Logger.log("[validateConfig] Memulai validasi konfigurasi...");
+  Logger.log("[validateConfig] SHEET_ID=" + SHEET_ID);
+  Logger.log("[validateConfig] URL_UTAMA=" + URL_UTAMA);
+
+  try {
+    validateSheetId(SHEET_ID);
+    validateUrl(URL_UTAMA, "URL_UTAMA");
+    Logger.log("[validateConfig] Validasi konfigurasi berhasil.");
+  } catch (e) {
+    Logger.log("[validateConfig] Validasi konfigurasi gagal: " + e.message);
+    throw e;
+  }
 }
