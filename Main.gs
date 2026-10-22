@@ -1,27 +1,3 @@
-function getSiteSpreadsheet() {
-  if (!SHEET_ID) {
-    throw new Error("SPREADSHEETS_ID belum di-set di Script Properties.");
-  }
-  return SpreadsheetApp.openById(SHEET_ID);
-}
-
-function getOrCreateSheet(ss, sheetName, headers) {
-  var sheet = ss.getSheetByName(sheetName) || ss.insertSheet(sheetName);
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(headers);
-  }
-  return sheet;
-}
-
-function appendRowsToSheet(sheet, rows) {
-  if (!rows || !rows.length) {
-    return;
-  }
-
-  var startRow = sheet.getLastRow() + 1;
-  sheet.getRange(startRow, 1, rows.length, rows[0].length).setValues(rows);
-}
-
 // CEK UPTIME - tiap 6 jam
 function cekUptimeKeSheet() {
   var ss = getSiteSpreadsheet();
@@ -37,12 +13,13 @@ function cekUptimeKeSheet() {
     });
 
     var kode = res.getResponseCode();
-    var durasi = new Date() - start;
+    var durasi = Math.max(new Date() - start, 0);
+
     row[2] = kode;
     row[3] = kode === 200 ? "AMAN - " + durasi + "ms" : "DOWN";
   } catch (e) {
     row[2] = "ERROR";
-    row[3] = e && e.toString ? e.toString() : String(e);
+    row[3] = safeToString(e);
   }
 
   appendRowsToSheet(sheet, [row]);
@@ -60,32 +37,30 @@ function cekLinkMatiKeSheet() {
       muteHttpExceptions: true,
       followRedirects: true
     });
+
     var sitemapText = sitemapResponse.getContentText();
-    var matches = sitemapText.match(/<loc>(.*?)<\/loc>/gi) || [];
-    var urls = matches
-      .map(function(item) {
-        return item.replace(/<\/?loc>/gi, "").trim();
-      })
-      .filter(Boolean)
-      .slice(0, MAX_SITEMAP_LINKS);
+    var urls = normalizeSitemapUrls(sitemapText);
 
     if (!urls.length) {
-      sheet.appendRow([waktu, sitemap, "ERROR", "Sitemap tidak memiliki tag <loc>"]);
+      sheet.appendRow([waktu, sitemap, "ERROR", "Sitemap tidak valid atau tidak ada tag <loc>"]);
       return;
     }
 
     var rows = [];
+
     for (var i = 0; i < urls.length; i++) {
       var link = urls[i];
+
       try {
         var response = UrlFetchApp.fetch(link, {
           muteHttpExceptions: true,
           followRedirects: true
         });
+
         var statusCode = response.getResponseCode();
         rows.push([waktu, link, statusCode, statusCode === 200 ? "OK" : "MATI"]);
       } catch (e) {
-        rows.push([waktu, link, "ERROR", e && e.toString ? e.toString() : String(e)]);
+        rows.push([waktu, link, "ERROR", safeToString(e)]);
       }
     }
 
@@ -93,6 +68,6 @@ function cekLinkMatiKeSheet() {
       appendRowsToSheet(sheet, rows);
     }
   } catch (e) {
-    sheet.appendRow([waktu, sitemap, "ERROR", e && e.toString ? e.toString() : String(e)]);
+    sheet.appendRow([waktu, sitemap, "ERROR", safeToString(e)]);
   }
 }
