@@ -46,23 +46,26 @@ function cekLinkMatiKeSheet() {
       return;
     }
 
+    var results = fetchUrlBatch(urls);
     var rows = [];
 
-    for (var i = 0; i < urls.length; i++) {
-      var link = urls[i];
+    results.forEach(function (item) {
+      var link = item.url;
+      var response = item.response;
+      var statusCode = "ERROR";
+      var catatan = "FETCH_ERROR";
 
       try {
-        var response = UrlFetchApp.fetch(link, {
-          muteHttpExceptions: true,
-          followRedirects: true
-        });
-
-        var statusCode = response.getResponseCode();
-        rows.push([waktu, link, statusCode, statusCode === 200 ? "OK" : "MATI"]);
+        if (response) {
+          statusCode = response.getResponseCode();
+          catatan = statusCode === 200 ? "OK" : "MATI";
+        }
       } catch (e) {
-        rows.push([waktu, link, "ERROR", safeToString(e)]);
+        catatan = safeToString(e);
       }
-    }
+
+      rows.push([waktu, link, statusCode, catatan]);
+    });
 
     if (rows.length) {
       appendRowsToSheet(sheet, rows);
