@@ -76,6 +76,12 @@ pasangTriggerOtomatis();
 - `Uptime`: status utama situs dan durasi respon
 - `Link`: hasil pengecekan URL dari sitemap
 
+## Dukungan
+
+Jika Anda ingin mendukung pengembangan proyek ini, silakan dukung melalui:
+
+- Saweria: https://saweria.co/AKaAturDompet
+
 ## Kontribusi
 
 Kontribusi sangat terbuka. Anda dapat melakukan fork, membuat branch baru, dan mengirim pull request.
