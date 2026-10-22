@@ -1,6 +1,6 @@
 # SiteHealthCheck
 
-SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk memantau kesehatan situs web secara berkala. Script ini memeriksa uptime halaman utama dan validitas URL yang terdaftar di sitemap, lalu menyimpan hasilnya ke dalamGoogle Spreadsheet untuk kebutuhan monitoring dan audit.
+SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk memantau kesehatan situs web secara berkala. Script ini memeriksa uptime halaman utama dan validitas URL yang terdaftar di sitemap, lalu menyimpan hasilnya ke dalam Google Spreadsheet untuk kebutuhan monitoring dan audit.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![JavaScript](https://img.shields.io/badge/JavaScript-100%25-yellow.svg)](https://developer.mozilla.org/id/docs/Web/JavaScript)
