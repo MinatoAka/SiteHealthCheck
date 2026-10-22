@@ -30,8 +30,9 @@ function validateUrl(urlValue, name) {
   }
 
   try {
-    var parsed = new URL(normalizedUrl);
-    if (!parsed.hostname) {
+    var parsed = Utilities.parseUrl(normalizedUrl);
+    var hostname = (parsed && parsed.host) ? parsed.host : "";
+    if (!hostname || !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(hostname)) {
       throw new Error(name + " tidak memiliki hostname yang valid.");
     }
   } catch (e) {
