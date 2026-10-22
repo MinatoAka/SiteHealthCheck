@@ -1,6 +1,6 @@
 # SiteHealthCheck
 
-SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk memantau kesehatan situs web secara berkala. Script ini mengecek uptime halaman utama, memvalidasi URL dari sitemap, dan mencatat hasil monitoring ke Google Spreadsheet agar Anda bisa memantau kondisi situs tanpa harus menjalankan proses secara manual.
+SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script yang dirancang untuk memantau kesehatan situs web secara berkala. Proyek ini membantu pengguna untuk memeriksa kondisi situs utama, mengevaluasi validitas URL yang terdapat dalam sitemap, serta mencatat hasil monitoring ke Google Spreadsheet secara otomatis.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![JavaScript](https://img.shields.io/badge/JavaScript-100%25-yellow.svg)](https://developer.mozilla.org/id/docs/Web/JavaScript)
@@ -8,52 +8,55 @@ SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk mema
 [![Status](https://img.shields.io/badge/Status-Website%20Monitoring-success.svg)](https://github.com/MinatoAka/SiteHealthCheck)
 [![Support Me](https://img.shields.io/badge/Support%20Me-Saweria-orange?logo=paypal&logoColor=white)](https://saweria.co/AKaAturDompet)
 
-## Ringkasan
+## Overview
 
-Proyek ini dirancang untuk membantu Anda memantau website secara otomatis dengan cara yang sederhana dan efisien. Fungsinya mencakup:
+Proyek ini dibuat untuk menyediakan solusi monitoring website yang sederhana, efisien, dan mudah diintegrasikan dengan ekosistem Google Workspace. Dengan SiteHealthCheck, pengguna dapat memantau:
 
-- pengecekan uptime situs utama
-- pengecekan link rusak dari sitemap
-- pencatatan hasil monitoring ke spreadsheet
-- pembersihan log secara otomatis agar data tetap ringkas
-- pengaturan trigger otomatis berbasis jadwal
+- status uptime situs utama
+- keberhasilan akses URL dari sitemap
+- status HTTP dan error yang terjadi
+- hasil monitoring yang tersimpan secara rapi di spreadsheet
+- eksekusi otomatis berdasarkan jadwal tertentu
 
 ## Fitur Utama
 
-- Cek uptime situs utama setiap 6 jam
-- Cek URL dari sitemap setiap 24 jam
-- Simpan hasil monitoring ke sheet `Uptime` dan `Link`
-- Hapus log lama secara otomatis agar sheet tetap ringan
-- Konfigurasi via Google Apps Script Script Properties
-- Validasi konfigurasi dasar untuk mencegah error runtime
-- Optimasi performa dengan batch processing dan pembatasan jumlah URL
+- Pemantauan uptime situs utama setiap 6 jam
+- Pemeriksaan URL dari sitemap setiap 24 jam
+- Pencatatan hasil monitoring ke sheet `Uptime` dan `Link`
+- Pembersihan log lama agar spreadsheet tetap ringkas
+- Pengaturan konfigurasi melalui Script Properties
+- Validasi input dasar untuk mencegah error runtime
+- Optimasi performa dengan proses batch dan pembatasan jumlah URL yang diproses
 
 ## Struktur Proyek
 
-Berikut struktur file yang saat ini ada di repositori:
+Repository ini terdiri dari beberapa file utama dengan tugas yang jelas:
 
-- `Config.gs` — konfigurasi global, validasi URL, validasi `SPREADSHEETS_ID`, serta helper validasi umum
-- `Main.gs` — fungsi utama untuk mengecek uptime dan link mati
-- `SitemapUtils.gs` — normalisasi dan ekstraksi URL dari `sitemap.xml`
-- `SpreadsheetUtils.gs` — helper untuk membuka/membuat sheet dan menulis data ke spreadsheet
-- `TriggerUtils.gs` — pendaftaran trigger otomatis dengan jadwal tertentu
+- `Config.gs` — konfigurasi global, validasi URL, serta validasi parameter penting seperti `SPREADSHEETS_ID`
+- `Main.gs` — fungsi utama untuk pengecekan uptime dan pemeriksaan link mati
+- `SitemapUtils.gs` — normalisasi dan ekstraksi URL dari file `sitemap.xml`
+- `SpreadsheetUtils.gs` — helper untuk membuka, membuat, dan menulis data ke sheet spreadsheet
+- `TriggerUtils.gs` — pendaftaran trigger otomatis berdasarkan jadwal
 - `README.md` — dokumentasi proyek
-- `LICENSE` — lisensi GPL v3
+- `LICENSE` — lisensi proyek
 
 ## Cara Kerja
 
-1. Script membaca `SPREADSHEETS_ID` dan `URL_UTAMA` dari Script Properties.
-2. Script membuka spreadsheet target menggunakan `SpreadsheetApp.openById()`.
-3. Script mengecek URL utama dengan `UrlFetchApp.fetch()` dan menyimpan status HTTP serta durasi respon.
-4. Script mengambil `sitemap.xml` dari website target, memvalidasi formatnya, lalu mengekstrak URL yang valid.
-5. Script memeriksa tiap URL dari sitemap dan menyimpan hasilnya ke sheet `Link`.
-6. Script secara otomatis membuang log lama berdasarkan `LOG_RETENTION_DAYS`.
-7. Trigger dijalankan sesuai jadwal yang ditetapkan agar proses monitoring berjalan otomatis.
+1. Script membaca konfigurasi dari `Script Properties`, termasuk `SPREADSHEETS_ID` dan `URL_UTAMA`.
+2. Script membuka spreadsheet target dengan `SpreadsheetApp.openById()`.
+3. Script mengakses URL utama menggunakan `UrlFetchApp.fetch()`.
+4. Script menyimpan status HTTP, durasi respon, dan keterangan kondisi situs.
+5. Script mengambil isi `sitemap.xml` dari situs target, memvalidasi formatnya, lalu mengekstrak URL yang valid.
+6. Script mengecek setiap URL dari sitemap dan menyimpan hasil akhirnya di sheet `Link`.
+7. Log lama dibersihkan secara otomatis berdasarkan parameter `LOG_RETENTION_DAYS`.
+8. Trigger otomatis dijalankan sesuai jadwal yang telah ditentukan.
 
 ## Persyaratan
 
+Untuk menjalankan proyek ini, diperlukan:
+
 - Akun Google
-- Google Spreadsheet yang akan dipakai sebagai database monitoring
+- Spreadsheet Google yang akan digunakan sebagai sumber data monitoring
 - Project Google Apps Script
 - Akses ke situs yang akan dipantau
 - Koneksi internet aktif saat script berjalan
@@ -62,11 +65,11 @@ Berikut struktur file yang saat ini ada di repositori:
 
 ### 1. Siapkan spreadsheet target
 
-Buat atau siapkan spreadsheet baru dan salin ID spreadsheet Anda.
+Buat spreadsheet baru atau gunakan spreadsheet yang sudah ada, lalu salin ID spreadsheet Anda.
 
 ### 2. Buka project Google Apps Script
 
-Buka proyek ini di Google Apps Script, lalu buka menu:
+Buka proyek ini di Google Apps Script, lalu masuk ke menu:
 
 - Project Settings
 - Script Properties
@@ -80,7 +83,7 @@ URL_UTAMA = https://www.aturdompet.my.id
 
 ### 3. Sesuaikan konfigurasi
 
-Jika perlu, edit file `Config.gs` untuk menyesuaikan URL utama dan parameter monitoring:
+Jika diperlukan, edit file `Config.gs` untuk menyesuaikan nilai URL utama dan parameter monitoring:
 
 ```javascript
 const URL_UTAMA = "https://www.aturdompet.my.id";
@@ -97,23 +100,23 @@ Jalankan fungsi berikut satu kali untuk mendaftarkan jadwal otomatis:
 pasangTriggerOtomatis()
 ```
 
-Fungsi tersebut akan membuat trigger untuk:
+Fungsi ini akan membuat trigger untuk:
 
-- cek uptime setiap 6 jam
-- cek sitemap/link setiap 24 jam pada pukul 07.00
-- auto cleanup log setiap minggu pada hari Senin pukul 08.00
+- pengecekan uptime setiap 6 jam
+- pengecekan sitemap dan URL setiap 24 jam pada pukul 07.00
+- pembersihan log otomatis setiap minggu pada hari Senin pukul 08.00
 
-## Validasi yang Sudah Ditambahkan
+## Validasi yang Ditambahkan
 
-Script ini telah dilengkapi dengan beberapa validasi untuk mengurangi error runtime:
+Proyek ini telah dilengkapi dengan beberapa mekanisme validasi untuk mengurangi risiko error runtime, di antaranya:
 
 - validasi `SPREADSHEETS_ID`
 - validasi `URL_UTAMA`
-- validasi protokol HTTP/HTTPS
+- validasi format protokol HTTP/HTTPS
 - validasi hostname
-- validasi hasil fetch status code
-- validasi sitemap agar tidak kosong atau tidak memiliki tag `<loc>`
-- validasi URL yang diambil dari sitemap untuk memastikan formatnya benar
+- validasi status code hasil fetch
+- validasi struktur sitemap agar tidak kosong atau tidak memiliki tag `<loc>`
+- validasi URL yang diambil dari sitemap agar sesuai format yang benar
 
 ## Contoh Output
 
@@ -131,36 +134,36 @@ Script ini telah dilengkapi dengan beberapa validasi untuk mengurangi error runt
 
 ## Catatan Performa
 
-Versi terbaru sudah mengurangi beberapa bottleneck, antara lain:
+Versi terbaru dirancang untuk mengurangi bottleneck dan meningkatkan efisiensi, termasuk:
 
-- mengurangi pembukaan spreadsheet berulang kali
-- menyimpan data dalam batch agar lebih efisien
-- membatasi jumlah URL dari sitemap agar tidak terlalu berat
-- menggunakan `muteHttpExceptions` untuk menangani error HTTP tanpa menghentikan proses
-- membersihkan log secara berkala agar sheet tetap ringan
+- mengurangi pembukaan spreadsheet yang berulang
+- mengumpulkan data dalam batch untuk proses penulisan yang lebih cepat
+- membatasi jumlah URL yang diproses dari sitemap agar beban tetap terkendali
+- menggunakan `muteHttpExceptions` agar error HTTP dapat ditangani tanpa menghentikan seluruh proses
+- membersihkan log secara berkala agar sheet tetap ringan dan mudah dikelola
 
 ## Troubleshooting
 
 ### 1. Spreadsheet ID tidak valid
 
-Pastikan nilai `SPREADSHEETS_ID` benar dan tidak mengandung spasi atau karakter yang salah.
+Pastikan nilai `SPREADSHEETS_ID` benar dan tidak mengandung spasi maupun karakter yang tidak valid.
 
 ### 2. URL utama tidak bisa diakses
 
-Periksa apakah:
+Periksa beberapa kemungkinan berikut:
 
 - URL sudah benar
-- domain aktif
-- situs tidak sedang down
-- protokol yang dipakai adalah `http` atau `https`
+- domain sedang aktif
+- situs tidak dalam kondisi down
+- protokol yang digunakan adalah `http` atau `https`
 
 ### 3. Sitemap tidak valid
 
-Beberapa situs mungkin memakai struktur sitemap yang berbeda atau tidak menampilkan tag `<loc>`. Dalam kasus ini, script akan mencatat error dan menolak pemrosesan URL.
+Beberapa situs mungkin menggunakan struktur sitemap yang berbeda atau tidak menampilkan tag `<loc>`. Dalam kondisi seperti ini, script akan mencatat error dan menolak proses eksekusi URL.
 
 ### 4. Trigger tidak berjalan
 
-Cek apakah trigger sudah terpasang dan apakah project Google Apps Script memiliki izin untuk menjalankan fungsi berjadwal.
+Periksa apakah trigger sudah terpasang dengan benar serta apakah project Google Apps Script memiliki izin untuk menjalankan fungsi yang dijadwalkan.
 
 ## Lisensi
 
@@ -168,7 +171,7 @@ Proyek ini dilisensikan di bawah [GNU General Public License v3.0](LICENSE).
 
 ## Kontak
 
-Untuk pertanyaan, laporan, atau dukungan, silakan buka [halaman issue GitHub](https://github.com/MinatoAka/SiteHealthCheck/issues) atau dukung pengembangan proyek melalui [Saweria](https://saweria.co/AKaAturDompet).
+Untuk pertanyaan, laporan, atau dukungan, silakan kunjungi halaman [Issue GitHub](https://github.com/MinatoAka/SiteHealthCheck/issues) atau dukung pengembangan proyek melalui [Saweria](https://saweria.co/AKaAturDompet).
 
 ## Repository
 
