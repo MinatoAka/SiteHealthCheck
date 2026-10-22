@@ -5,7 +5,7 @@
 [![Google Apps Script](https://img.shields.io/badge/Google%20Apps%20Script-Automation-green.svg)](https://developers.google.com/apps-script)
 [![Status](https://img.shields.io/badge/Status-Website%20Monitoring-success.svg)](https://github.com/MinatoAka/SiteHealthCheck)
 
-SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk memantau kesehatan situs web secara berkala. Script ini akan mengecek uptime utama website dan memvalidasi URL dari sitemap, lalu menyimpan hasilnya ke Google Sheets agar mudah dipantau dan dianalisis.
+SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk memantau kesehatan situs web secara berkala. Script ini akan mengecek uptime utama website, memvalidasi URL dari sitemap, dan menyimpan hasil monitoring ke Google Sheets secara otomatis.
 
 ## Fitur
 
@@ -13,13 +13,14 @@ SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk mema
 - Cek link rusak dari sitemap setiap 24 jam
 - Simpan hasil monitoring ke sheet bernama `Uptime` dan `Link`
 - Otomatis hapus log lama setiap minggu
-- Mudah dikonfigurasi menggunakan Google Apps Script dan Properties
+- Mudah dikonfigurasi menggunakan Google Apps Script dan Script Properties
+- Optimasi performa: mengurangi operasi spreadsheet yang berulang, validasi sitemap, dan batch write untuk efisiensi runtime
 
 ## Arsitektur Proyek
 
-- `Config.gs` — konfigurasi global seperti ID spreadsheet dan URL utama
+- `Config.gs` — konfigurasi global seperti ID spreadsheet, URL utama, dan parameter pengaturan log
 - `Main.gs` — fungsi utama monitoring uptime dan link mati
-- `Utils.gs` — fungsi trigger otomatis dan cleanup log
+- `Utils.gs` — helper, auto cleanup log, dan setup trigger otomatis
 
 ## Cara Kerja
 
@@ -29,6 +30,7 @@ SiteHealthCheck adalah proyek otomatisasi berbasis Google Apps Script untuk mema
 4. Mengambil `sitemap.xml` dari website, lalu memeriksa setiap URL yang ada
 5. Menyimpan hasil pengecekan ke sheet `Link`
 6. Trigger otomatis dijalankan sesuai jadwal yang sudah diatur
+7. Data lama otomatis dibersihkan agar sheet tetap ringkas dan cepat
 
 ## Persyaratan
 
@@ -59,6 +61,16 @@ const URL_UTAMA = "https://www.aturdompet.my.id";
 ```javascript
 pasangTriggerOtomatis()
 ```
+
+## Catatan Optimasi
+
+Versi terbaru sudah termasuk beberapa perbaikan performa, di antaranya:
+
+- Mengurangi pembukaan spreadsheet berulang kali
+- Menggunakan helper agar sheet dibuat sekali dan data ditulis dalam batch
+- Validasi sitemap sebelum memproses URL-nya
+- Mengurangi penggunaan `sleep` yang memperlambat eksekusi
+- Menjaga sheet tetap ringkas dengan auto cleanup log
 
 ## Contoh Output
 
