@@ -28,20 +28,54 @@ function safeToString(value) {
   return String(value);
 }
 
+function safeGetResponseCode(response) {
+  if (!response) {
+    return null;
+  }
+
+  try {
+    return response.getResponseCode();
+  } catch (e) {
+    return null;
+  }
+}
+
 function normalizeSitemapUrls(xmlText) {
   if (!xmlText) {
     return [];
   }
 
-  var matches = xmlText.match(/<loc>(.*?)<\/loc>/gi) || [];
+  if (!/<loc>/i.test(xmlText)) {
+    return [];
+  }
+
+  var matches = xmlText.match(/<loc[^>]*>([\s\S]*?)<\/loc>/gi) || [];
+  var seen = {};
+
   return matches
     .map(function (item) {
-      return item.replace(/<\/?loc>/gi, "").trim();
+      return item.replace(/<\/?loc[^>]*>/gi, "").trim();
     })
     .filter(function (item) {
-      return !!item && item.indexOf("http") === 0;
+      return !!item && item.indexOf("http") === 0 && !seen[item] && (seen[item] = true);
     })
     .slice(0, MAX_SITEMAP_LINKS);
+}
+
+function resolveUrlCatatan(statusCode) {
+  if (!isValidHttpStatusCode(statusCode)) {
+    return "INVALID_STATUS";
+  }
+  if (statusCode === 200) {
+    return "OK";
+  }
+  if (statusCode >= 300 && statusCode < 400) {
+    return "REDIRECT";
+  }
+  if (statusCode >= 400 && statusCode < 500) {
+    return "CLIENT_ERROR";
+  }
+  return "SERVER_ERROR";
 }
 
 function fetchUrlBatch(urls) {

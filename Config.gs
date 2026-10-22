@@ -24,21 +24,39 @@ function validateUrl(urlValue, name) {
     throw new Error(name + " belum di-set di Script Properties.");
   }
 
+  var normalizedUrl = urlValue.trim();
+  if (!/^https?:\/\//i.test(normalizedUrl)) {
+    throw new Error(name + " harus memakai protokol http atau https.");
+  }
+
   try {
-    var parsed = new URL(urlValue);
-    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
-      throw new Error(name + " harus memakai protokol http atau https.");
-    }
+    var parsed = new URL(normalizedUrl);
     if (!parsed.hostname) {
       throw new Error(name + " tidak memiliki hostname yang valid.");
     }
   } catch (e) {
-    throw new Error(name + " tidak valid: " + urlValue + " (" + e.message + ")");
+    throw new Error(name + " tidak valid: " + normalizedUrl + " (" + e.message + ")");
   }
 }
 
 function isValidHttpStatusCode(code) {
   return typeof code === "number" && code >= 100 && code < 600;
+}
+
+function describeHttpStatus(code) {
+  if (!isValidHttpStatusCode(code)) {
+    return "INVALID_STATUS";
+  }
+  if (code >= 200 && code < 300) {
+    return "OK";
+  }
+  if (code >= 300 && code < 400) {
+    return "REDIRECT";
+  }
+  if (code >= 400 && code < 500) {
+    return "CLIENT_ERROR";
+  }
+  return "SERVER_ERROR";
 }
 
 function validateConfig() {
