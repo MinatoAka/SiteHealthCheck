@@ -13,8 +13,8 @@ const LINK_SHEET_NAME = "Link";
 const LOG_RETENTION_DAYS = 7;
 
 function getWibTimestamp(date) {
-  var d = date || new Date();
-  return Utilities.formatDate(d, "GMT+7", "yyyy-MM-dd HH:mm:ss");
+  const d = date || new Date();
+  return Utilities.formatDate(d, "Asia/Jakarta", "yyyy-MM-dd HH:mm:ss");
 }
 
 
