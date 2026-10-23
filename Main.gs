@@ -2,7 +2,7 @@
 function cekUptimeKeSheet() {
   var ss = getSiteSpreadsheet();
   var sheet = getOrCreateSheet(ss, UPTIME_SHEET_NAME, ["Waktu", "URL", "Status Code", "Keterangan"]);
-  var waktu = new Date();
+  var waktu = getWibTimestamp(); 
   var row = [waktu, URL_UTAMA, "", ""];
 
   try {
@@ -36,7 +36,7 @@ function cekLinkMatiKeSheet() {
   var ss = getSiteSpreadsheet();
   var sheet = getOrCreateSheet(ss, LINK_SHEET_NAME, ["Waktu Cek", "URL Artikel", "Status", "Catatan"]);
   var sitemap = URL_UTAMA.replace(/\/+$/, "") + "/sitemap.xml";
-  var waktu = new Date();
+  var waktu = getWibTimestamp();
 
   try {
     validateUrl(sitemap, "Sitemap URL");
