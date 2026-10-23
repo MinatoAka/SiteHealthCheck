@@ -11,8 +11,6 @@ const LOG_RETENTION_DAYS = 7;
 
 //============================================================
 // Mengubah objek Date menjadi string format waktu WIB (GMT+7)
-// @param {Date} [date] - Objek Date opsional, default ke new Date()
-// @return {string} Format tanggal "YYYY-MM-DD HH:mm:ss"
 //============================================================
 
 function getWibTimestamp(date) {
