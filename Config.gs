@@ -3,7 +3,7 @@
 //============================================================
 
 const props = PropertiesService.getScriptProperties();
-const SHEET_ID = (props.getProperty("SPREADSHEETS_ID") || "").trim();
+const SHEET_ID = (props.getProperty("SPREADSHEET_ID") || "").trim();
 const URL_UTAMA = (props.getProperty("URL_UTAMA") || "https://www.aturdompet.my.id").trim();
 
 const MAX_SITEMAP_LINKS = 30;
@@ -20,12 +20,12 @@ function getWibTimestamp(date) {
 
 function validateSheetId(sheetId) {
   if (!sheetId) {
-    throw new Error("SPREADSHEETS_ID belum di-set di Script Properties.");
+    throw new Error("SPREADSHEET_ID belum di-set di Script Properties.");
   }
 
   var normalized = sheetId.trim();
   if (!normalized || normalized.length < 10 || /\s/.test(normalized)) {
-    throw new Error("SPREADSHEETS_ID tidak valid. Pastikan ID spreadsheet benar dan tidak mengandung spasi.");
+    throw new Error("SPREADSHEET_ID tidak valid. Pastikan ID spreadsheet benar dan tidak mengandung spasi.");
   }
 }
 
