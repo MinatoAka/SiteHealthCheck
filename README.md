@@ -50,7 +50,7 @@ Impor semua file `.gs` ke project Apps Script Anda.
 Tambahkan properti berikut di Google Apps Script:
 
 ```text
-SPREADSHEETS_ID = ID_SPREADSHEET_ANDA
+SPREADSHEET_ID = ID_SPREADSHEET_ANDA
 URL_UTAMA = https://example.com
 ```
 
