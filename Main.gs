@@ -1,4 +1,7 @@
+//============================================================
 // CEK UPTIME - tiap 6 jam
+//============================================================
+
 function cekUptimeKeSheet() {
   var ss = getSiteSpreadsheet();
   var sheet = getOrCreateSheet(ss, UPTIME_SHEET_NAME, ["Waktu", "URL", "Status Code", "Keterangan"]);
@@ -31,7 +34,10 @@ function cekUptimeKeSheet() {
   appendRowsToSheet(sheet, [row]);
 }
 
+//============================================================
 // CEK LINK MATI - tiap 24 jam
+//============================================================
+
 function cekLinkMatiKeSheet() {
   var ss = getSiteSpreadsheet();
   var sheet = getOrCreateSheet(ss, LINK_SHEET_NAME, ["Waktu Cek", "URL Artikel", "Status", "Catatan"]);
