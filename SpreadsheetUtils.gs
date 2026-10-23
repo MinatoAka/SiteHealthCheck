@@ -1,4 +1,7 @@
+//============================================================
 // Spreadsheet helpers
+//============================================================
+
 function getSiteSpreadsheet() {
   validateConfig();
   return SpreadsheetApp.openById(SHEET_ID);
