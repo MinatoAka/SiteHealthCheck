@@ -1,4 +1,7 @@
+//============================================================
 // Network and data normalization helpers
+//============================================================
+
 function safeToString(value) {
   if (value === null || value === undefined) {
     return "";
