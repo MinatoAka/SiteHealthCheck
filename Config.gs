@@ -9,6 +9,18 @@ const UPTIME_SHEET_NAME = "Uptime";
 const LINK_SHEET_NAME = "Link";
 const LOG_RETENTION_DAYS = 7;
 
+//============================================================
+// Mengubah objek Date menjadi string format waktu WIB (GMT+7)
+// @param {Date} [date] - Objek Date opsional, default ke new Date()
+// @return {string} Format tanggal "YYYY-MM-DD HH:mm:ss"
+//============================================================
+
+function getWibTimestamp(date) {
+  var d = date || new Date();
+  return Utilities.formatDate(d, "GMT+7", "yyyy-MM-dd HH:mm:ss");
+}
+
+
 function validateSheetId(sheetId) {
   if (!sheetId) {
     throw new Error("SPREADSHEETS_ID belum di-set di Script Properties.");
