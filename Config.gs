@@ -12,6 +12,17 @@ const UPTIME_SHEET_NAME = "Uptime";
 const LINK_SHEET_NAME = "Link";
 const LOG_RETENTION_DAYS = 7;
 
+const options = {
+      method: 'get',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/json, application/rss+xml, application/xml, text/xml, */*',
+        'Accept-Language': 'en-US, en;q=0.9',
+        'Accept-Encoding': 'gzip, deflate'
+      },
+      muteHttpExceptions: true
+};
+
 function getWibTimestamp(date) {
   const d = date || new Date();
   return Utilities.formatDate(d, "Asia/Jakarta", "yyyy-MM-dd HH:mm:ss");
