@@ -10,10 +10,7 @@ function cekUptimeKeSheet() {
 
   try {
     var start = new Date();
-    var res = UrlFetchApp.fetch(URL_UTAMA, {
-      muteHttpExceptions: true,
-      followRedirects: true
-    });
+    var res = UrlFetchApp.fetch(URL_UTAMA, myHeaders);
 
     var kode = safeGetResponseCode(res);
     var durasi = Math.max(new Date() - start, 0);
@@ -46,10 +43,7 @@ function cekLinkMatiKeSheet() {
 
   try {
     validateUrl(sitemap, "Sitemap URL");
-    var sitemapResponse = UrlFetchApp.fetch(sitemap, {
-      muteHttpExceptions: true,
-      followRedirects: true
-    });
+    var sitemapResponse = UrlFetchApp.fetch(sitemap, myHeaders);
 
     var sitemapStatus = safeGetResponseCode(sitemapResponse);
     if (!isValidHttpStatusCode(sitemapStatus)) {
