@@ -67,19 +67,25 @@ function fetchUrlBatch(urls) {
   var rows = [];
   for (var i = 0; i < urls.length; i += URL_BATCH_SIZE) {
     var batch = urls.slice(i, i + URL_BATCH_SIZE).map(function (url) {
-      return {
-        url: url,
-        muteHttpExceptions: true,
-        followRedirects: true
-      };
+        return {
+            url: url,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'application/json, application/rss+xml, application/xml, text/xml, */*',
+                'Accept-Language': 'en-US, en;q=0.9',
+                'Accept-Encoding': 'gzip, deflate'
+            },
+            muteHttpExceptions: true,
+            followRedirects: true
+        };
     });
 
     var responses = UrlFetchApp.fetchAll(batch);
     for (var j = 0; j < responses.length; j++) {
-      rows.push({
-        url: urls[i + j],
-        response: responses[j]
-      });
+        rows.push({
+            url: urls[i + j],
+            response: responses[j]
+        });
     }
   }
 
