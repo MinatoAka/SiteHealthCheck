@@ -128,8 +128,6 @@ function describeHttpStatus(code) {
 
 function validateConfig() {
   Logger.log("[validateConfig] Memulai validasi konfigurasi...");
-  Logger.log("[validateConfig] SHEET_ID=" + SHEET_ID);
-  Logger.log("[validateConfig] URL_UTAMA=" + URL_UTAMA);
 
   try {
     validateSheetId(SHEET_ID);
